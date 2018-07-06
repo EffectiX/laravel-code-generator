@@ -1,0 +1,28 @@
+{
+    "name": "effectiX/laravel-code-generator",
+    "description": "Laravel package to generate random cryptographically safe codes.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jorge Morales",
+            "email": "jlm@effectix.net"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Effectix\\CodeGen\\": "./src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Effectix\\CodeGen\\CodeGeneratorServiceProvider"
+            ],
+            "aliases": {
+                "Mongo": "Effectix\\CodeGen\\CodeGenFacade"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
