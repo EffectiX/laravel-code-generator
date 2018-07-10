@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateCodesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up()
+    {
+        Schema::create(config('laravel-code-generator.table_name'), function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('code_name')->nullable();
+            $table->text('code');
+            $table->text('description');
+            $table->integer('code_for_id')->nullable();
+            $table->string('code_for_type')->nullable();
+            $table->integer('code_by_id')->nullable();
+            $table->string('code_by_type')->nullable();
+            $table->text('properties')->nullable();
+            $table->timestamps();
+
+            $table->index('code_name');
+            $table->index(['code_for_id', 'code_for_type']);
+            $table->index(['code_by_id', 'code_by_type']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down()
+    {
+        Schema::drop(config('laravel-code-generator.table_name'));
+    }
+}
