@@ -1,19 +1,23 @@
 <?php
 
 return [
+    'default_code_name' => 'default',
+
     // Length of the codes
     'length' => 5,
 
-    // characters used to generate psudo-random codes
+    // Characters used to generate psudo-random codes
     'character_pool' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
 
-    // if it is null, we use our own package included model
-    // make sure your custom model extends our package model
-    'custom_model_name' => null,
+    // If it is null, we use "Code::class" make sure your
+    // custom model extends our package model. Use fully
+    // qualified namespace here: App\ModelName
+    'custom_model' => null,
 
-    // the table name to store our codes
+    // The table name to store our codes
     'table_name' => 'codes',
 
+    // fetch soft-deleted rows?
     'generatedFor_returns_soft_deleted_models' => false,
 
 ];

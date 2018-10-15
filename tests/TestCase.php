@@ -2,7 +2,10 @@
 
 namespace Effectix\CodeGen\Test;
 
+use Effectix\CodeGen\Test\Models\User;
+use Effectix\CodeGen\Test\Models\Prize;
 use Illuminate\Database\Schema\Blueprint;
+use Effectix\CodeGen\CodeGeneratorServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase
@@ -10,17 +13,6 @@ abstract class TestCase extends OrchestraTestCase
     public function setUp()
     {
         parent::setUp();
-    }
-
-    protected function checkRequirements()
-    {
-        parent::checkRequirements();
-
-        collect($this->getAnnotations())->filter(function ($location) {
-            return in_array('!Travis', array_get($location, 'requires', []));
-        })->each(function ($location) {
-            getenv('TRAVIS') && $this->markTestSkipped('Travis will not run this test.');
-        });
     }
 
     protected function getPackageProviders($app)
@@ -52,7 +44,7 @@ abstract class TestCase extends OrchestraTestCase
         $this->createCodesTable();
 
         $this->createTables('users', 'prizes');
-        $this->seedModels(Article::class, User::class);
+        $this->seedModels(Prize::class, User::class);
     }
 
     protected function resetDatabase()
@@ -62,9 +54,9 @@ abstract class TestCase extends OrchestraTestCase
 
     protected function createCodesTable()
     {
-        include_once '__DIR__'.'/../migrations/create_activity_log_table.php.stub';
+        include_once '__DIR__'.'/../migrations/create_codes_table.php.stub';
 
-        (new \CreateActivityLogTable())->up();
+        (new \CreateCodesTable())->up();
     }
 
     public function getTempDirectory(): string
@@ -82,7 +74,7 @@ abstract class TestCase extends OrchestraTestCase
                 $table->timestamps();
                 $table->softDeletes();
 
-                if ($tableName === 'prizes') {
+                if ($table_name === 'prizes') {
                     $table->integer('user_id')->unsigned()->nullable();
                     $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
                     $table->text('json')->nullable();
